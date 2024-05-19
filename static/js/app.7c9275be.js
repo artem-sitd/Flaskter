@@ -21,7 +21,7 @@
     var c = {}, r = {app: 0}, i = {app: 0}, a = [];
 
     function o(e) {
-        return u.p + "js/" + ({}[e] || e) + "." + {
+        return u.p + "static/js/" + ({}[e] || e) + "." + {
             "chunk-76301fe8": "cc56c3b1",
             "chunk-10e0d5b4": "e80e67b6",
             "chunk-732a3e8c": "57e36fb4",
@@ -39,7 +39,7 @@
     u.e = function (e) {
         var t = [], n = {"chunk-10e0d5b4": 1, "chunk-732a3e8c": 1, "chunk-0420bcc4": 1, "chunk-6f77c742": 1};
         r[e] ? t.push(r[e]) : 0 !== r[e] && n[e] && t.push(r[e] = new Promise((function (t, n) {
-            for (var c = "css/" + ({}[e] || e) + "." + {
+            for (var c = "static/css/" + ({}[e] || e) + "." + {
                 "chunk-76301fe8": "31d6cfe0",
                 "chunk-10e0d5b4": "130d80ef",
                 "chunk-732a3e8c": "6334cd6b",
