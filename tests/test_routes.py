@@ -1,4 +1,5 @@
 import pytest
+from copy import deepcopy
 import io
 import json
 from conftest import names
@@ -30,13 +31,15 @@ def test_get_users_me(client, _db):
         assert "user" in resp_data
         assert "id" in resp_data["user"]
         assert resp_data["user"]["name"] == name
-        assert all(map(resp_data["user"].__contains__, ("followers", "following"))) is True
+        assert (
+            all(map(resp_data["user"].__contains__, ("followers", "following"))) is True
+        )
         # assert "followers" in resp_data["user"]
         # assert "following" in resp_data["user"]
 
 
 # post api/tweets
-def post_tweets(client, _db):
+def test_post_tweets(client, _db):
     for name in names:
         resp = client.post("api/tweets", headers=get_head(name))
         # отправляем без контента
@@ -73,7 +76,7 @@ def post_tweets(client, _db):
 
 
 # get api/tweets
-def get_tweets(client, _db):
+def test_get_tweets(client, _db):
     for name in names:
         resp = client.get("api/tweets", headers=get_head(name))
         assert resp.status_code == 200
@@ -87,3 +90,39 @@ def get_tweets(client, _db):
             )
             is True
         )
+
+
+def test_post_follow(client, _db):
+    users = {
+        user.name: user.id for user in User.query.filter(User.name.in_(names)).all()
+    }
+    subscriptions = []
+
+    for name in names:
+        follower_id = users[name]
+        new_names = deepcopy(names)
+        new_names.remove(name)
+        resp = client.post("/api/users/<id>/follow", headers=get_head(name))
+        # отправляем без контента
+        assert resp.status_code == 400
+    pass
+
+
+def test_post_like(client, _db):
+    pass
+
+
+def test_get_api_user_id(client, _db):
+    pass
+
+
+def test_delete_tweet(client, _db):
+    pass
+
+
+def test_delete_like(client, _db):
+    pass
+
+
+def test_delete_follow(client, _db):
+    pass

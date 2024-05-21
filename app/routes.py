@@ -34,10 +34,12 @@ def create_app():
 
         return decorated_function
 
+    """ну это стартовая страница"""
     @app.route("/", methods=["GET"])
     def get_index():
         return render_template("index.html"), 200
 
+    """через обычный роут сделал, т.к. не хотел еще один класс создавать для апи"""
     @app.route("/api/users/me", methods=["GET"])
     @require_api_key
     def get_users_me(user):
