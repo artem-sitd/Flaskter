@@ -146,7 +146,7 @@ def create_app():
                 return err("does not exists tweet by id", None), 400
             db.session.delete(tweet)
             db.session.commit()
-            return {"result": True}
+            return {"result": True}, 200
 
     class MediasApi(Resource):
         # decorators = [require_api_key]
@@ -193,7 +193,7 @@ def create_app():
                 return err("not like on this post and this user", None), 400
             db.session.delete(like_to_delete)
             db.session.commit()
-            return {"result": True}
+            return {"result": True}, 200
 
     class UsersIdFollow(Resource):
         method_decorators = [require_api_key]

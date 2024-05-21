@@ -5,7 +5,7 @@ from copy import deepcopy
 import io
 import json
 from conftest import names
-from app.models import User, Tweet, Image, Follow
+from app.models import User, Tweet, Like, Follow
 
 
 def get_head(api_key):
@@ -148,13 +148,52 @@ def test_get_api_user_id(client, _db):
         )
 
 
-def test_delete_tweet(client, _db):
-    pass
-
-
 def test_delete_like(client, _db):
-    pass
+    assert len(_db.session.query(Like).all()) > 0
+    users = {
+        user.name: user.id
+        for user in _db.session.query(User).filter(User.name.in_(names)).all()
+    }
+    for user in users:
+        # находим всех на кого подписаны
+        followings = (
+            _db.session.query(User.following).filter(User.id == users[user]).all()
+        )
+
+        # удаляем лайк каждому посту
+        for follow in followings:
+            resp = client.delete(
+                f"/api/tweets/{follow.tweets.id}/likes", headers=get_head(users[user])
+            )
+            assert resp.status_code == 200
+    assert len(_db.session.query(Like).all()) == 0
+
+
+def test_delete_tweet(client, _db):
+    all_tweets_id = _db.session.query(Tweet).all()
+    assert len(all_tweets_id) > 0
+    for tweet in all_tweets_id:
+        resp = client.delete(
+            f"/api/tweets/{tweet.id}", headers=get_head(tweet.author.name)
+        )
+        assert resp.status_code == 200
+    assert len(_db.session.query(Tweet).all()) == 0
 
 
 def test_delete_follow(client, _db):
-    pass
+    assert len(_db.session.query(Follow).all()) > 0
+    users = {
+        user.name: user.id
+        for user in _db.session.query(User).filter(User.name.in_(names)).all()
+    }
+    for user_name, user_id in users.items():
+        # находим всех на кого подписаны
+        followings = _db.session.query(User.following).filter(User.id == user_id).all()
+
+        # удаляем подписки
+        for follow in followings:
+            resp = client.delete(
+                f"/api/users/{follow.following_id}/follow", headers=get_head(user_name)
+            )
+            assert resp.status_code == 200
+    assert len(_db.session.query(Follow).all()) == 0
