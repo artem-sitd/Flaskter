@@ -1,9 +1,11 @@
+from random import random
+
 import pytest
 from copy import deepcopy
 import io
 import json
 from conftest import names
-from app.models import User, Tweet, Image
+from app.models import User, Tweet, Image, Follow
 
 
 def get_head(api_key):
@@ -92,28 +94,58 @@ def test_get_tweets(client, _db):
         )
 
 
+# подписываем всех друг на друга
 def test_post_follow(client, _db):
     users = {
-        user.name: user.id for user in User.query.filter(User.name.in_(names)).all()
+        user.name: user.id
+        for user in _db.session.query(User).filter(User.name.in_(names)).all()
     }
-    subscriptions = []
-
     for name in names:
-        follower_id = users[name]
-        new_names = deepcopy(names)
-        new_names.remove(name)
-        resp = client.post("/api/users/<id>/follow", headers=get_head(name))
-        # отправляем без контента
-        assert resp.status_code == 400
-    pass
+        to_follows = deepcopy(names)
+        to_follows.remove(name)
+        for follow in to_follows:
+            resp = client.post(
+                f"/api/users/{users[follow]}/follow", headers=get_head(name)
+            )
+            assert resp.status_code == 201
 
 
+# лайкаем все посты на кого подписаны от имени одного пользователя
 def test_post_like(client, _db):
-    pass
+    users = {
+        user.name: user.id
+        for user in _db.session.query(User).filter(User.name.in_(names)).all()
+    }
+    for user in users:
+        # находим всех на кого подписаны
+        followings = (
+            _db.session.query(User.following).filter(User.id == users[user]).all()
+        )
+
+        # отправляем лайк каждому посту
+        for follow in followings:
+            resp = client.post(
+                f"/api/tweets/{follow.tweets.id}/likes", headers=get_head(users[user])
+            )
+            assert resp.status_code == 201
 
 
 def test_get_api_user_id(client, _db):
-    pass
+    users = {
+        user.name: user.id
+        for user in _db.session.query(User).filter(User.name.in_(names)).all()
+    }
+    for user_name, user_id in users.items():
+        resp = client.get(f"/api/users/{user_id}", headers=get_head(user_name))
+        assert resp.status_code == 200
+        resp_data = json.loads(resp.data.decode())
+        assert resp_data["result"] == "true"
+        assert all(map(resp_data.__contains__, ("result", "user")))
+        assert all(
+            map(
+                resp_data["user"].__contains__, ("id", "name", "followers", "following")
+            )
+        )
 
 
 def test_delete_tweet(client, _db):

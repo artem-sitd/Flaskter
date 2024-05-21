@@ -84,7 +84,7 @@ def create_app():
                     "followers": followers,
                     "following": following,
                 },
-            }
+            }, 201
 
     class TweetsApi(Resource):
         method_decorators = [require_api_key]
@@ -178,7 +178,7 @@ def create_app():
             new_like = Like(user_id=user.id, tweet_id=tweet.id)
             db.session.add(new_like)
             db.session.commit()
-            return {"result": True}
+            return {"result": True}, 201
 
         def delete(self, user, id):
             tweet = db.session.get(Tweet, id)
