@@ -29,14 +29,14 @@ def create_app():
                 user = User(name=api_key, api_key=api_key)
                 db.session.add(user)
                 db.session.commit()
-                return jsonify({"message": "new user added"}), 201
+                return {"message": "new user added"}, 201
             return f(user, *args, **kwargs)
 
         return decorated_function
 
     @app.route("/", methods=["GET"])
     def get_index():
-        return render_template("index.html")
+        return render_template("index.html"), 200
 
     @app.route("/api/users/me", methods=["GET"])
     @require_api_key
@@ -56,7 +56,7 @@ def create_app():
                 "followers": followers,
                 "following": following,
             },
-        }
+        }, 200
 
     class UsersIdApi(Resource):
         # /api/users/id
