@@ -162,14 +162,15 @@ def test_delete_like(client, db):
         my_followings = db.session.query(Follow).filter_by(follower_id=user_id).all()
 
         # находим все посты на кого подписаны
-        tweets_my_following = [follow.following.tweets for follow in my_followings]
-
+        tweets_my_following = [
+            tweet for follow in my_followings for tweet in follow.following.tweets
+        ]
         # отправляем лайк каждому посту
         for tweet in tweets_my_following:
             resp = client.delete(
                 f"/api/tweets/{tweet.id}/likes", headers=get_head(user_name)
             )
-            assert resp.status_code == 201
+            assert resp.status_code == 200
 
     assert len(db.session.query(Like).all()) == 0
 
@@ -193,12 +194,12 @@ def test_delete_follow(client, db):
     }
     for user_name, user_id in users.items():
         # находим всех на кого подписаны
-        my_followings = db.session.query(Follow).filter(following_id=user_id).all()
+        my_followings = db.session.query(Follow).filter_by(follower_id=user_id).all()
 
         # удаляем подписки
         for follow in my_followings:
             resp = client.delete(
-                f"/api/users/{follow.following.id}/follow", headers=get_head(user_name)
+                f"/api/users/{follow.following_id}/follow", headers=get_head(user_name)
             )
             assert resp.status_code == 200
     assert len(db.session.query(Follow).all()) == 0
