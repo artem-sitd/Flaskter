@@ -149,8 +149,6 @@ def create_app():
             return {"result": True}, 200
 
     class MediasApi(Resource):
-        # decorators = [require_api_key]
-
         def post(self):
             file = request.files["file"]
             if not file:
