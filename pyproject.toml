@@ -6,7 +6,7 @@ authors = ["Artem Sitd  <tym3@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 flask = "^3.0.3"
 gunicorn = "^22.0.0"
 flask-restful = "^0.3.10"
