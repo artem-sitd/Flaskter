@@ -8,12 +8,15 @@ from app.models import User, db as _db
 names = {"vasya12", "petya32", "15gevorg", "tor", "odin"}
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def app():
     load_dotenv()
     _app = create_app()
-    _app.config.from_object(ConfigTest)
+
     _app.config["TESTING"] = True
+    _app.config.from_object(ConfigTest)
+
+    _db.init_app(_app)
 
     with _app.app_context():
         _db.create_all()
@@ -24,18 +27,18 @@ def app():
             _db.session.add(new_user)
         _db.session.commit()
 
-        yield app
+        yield _app
         _db.session.close()
         _db.drop_all()
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def client(app):
     client = app.test_client()
     yield client
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def db(app):
     with app.app_context():
         yield _db

@@ -84,7 +84,7 @@ def create_app():
                     "followers": followers,
                     "following": following,
                 },
-            }, 201
+            }, 200
 
     class TweetsApi(Resource):
         method_decorators = [require_api_key]
