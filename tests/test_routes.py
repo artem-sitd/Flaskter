@@ -112,22 +112,27 @@ def test_get_tweets(client, db):
 
 # лайкаем все посты на кого подписаны от имени одного пользователя
 def test_post_like(client, db):
+    assert len(db.session.query(Like).all()) == 0
     users = {
         user.name: user.id
         for user in db.session.query(User).filter(User.name.in_(names)).all()
     }
-    for user in users:
+    for user_name, user_id in users.items():
         # находим всех на кого подписаны
-        followings = (
-            db.session.query(User.following).filter(User.id == users[user]).all()
-        )
+        my_followings = db.session.query(Follow).filter_by(follower_id=user_id).all()
 
+        # находим все посты на кого подписаны
+        tweets_my_following = [
+            tweet for follow in my_followings for tweet in follow.following.tweets
+        ]
         # отправляем лайк каждому посту
-        for follow in followings:
+        for tweet in tweets_my_following:
             resp = client.post(
-                f"/api/tweets/{follow.tweets.id}/likes", headers=get_head(users[user])
+                f"/api/tweets/{tweet.id}/likes", headers=get_head(user_name)
             )
             assert resp.status_code == 201
+
+    assert len(db.session.query(Like).all()) > 0
 
 
 def test_get_api_user_id(client, db):
@@ -152,18 +157,20 @@ def test_delete_like(client, db):
         user.name: user.id
         for user in db.session.query(User).filter(User.name.in_(names)).all()
     }
-    for user in users:
+    for user_name, user_id in users.items():
         # находим всех на кого подписаны
-        followings = (
-            db.session.query(User.following).filter(User.id == users[user]).all()
-        )
+        my_followings = db.session.query(Follow).filter_by(follower_id=user_id).all()
 
-        # удаляем лайк каждому посту
-        for follow in followings:
+        # находим все посты на кого подписаны
+        tweets_my_following = [follow.following.tweets for follow in my_followings]
+
+        # отправляем лайк каждому посту
+        for tweet in tweets_my_following:
             resp = client.delete(
-                f"/api/tweets/{follow.tweets.id}/likes", headers=get_head(users[user])
+                f"/api/tweets/{tweet.id}/likes", headers=get_head(user_name)
             )
-            assert resp.status_code == 200
+            assert resp.status_code == 201
+
     assert len(db.session.query(Like).all()) == 0
 
 
@@ -186,12 +193,12 @@ def test_delete_follow(client, db):
     }
     for user_name, user_id in users.items():
         # находим всех на кого подписаны
-        followings = db.session.query(User.following).filter(User.id == user_id).all()
+        my_followings = db.session.query(Follow).filter(following_id=user_id).all()
 
         # удаляем подписки
-        for follow in followings:
+        for follow in my_followings:
             resp = client.delete(
-                f"/api/users/{follow.following_id}/follow", headers=get_head(user_name)
+                f"/api/users/{follow.following.id}/follow", headers=get_head(user_name)
             )
             assert resp.status_code == 200
     assert len(db.session.query(Follow).all()) == 0
