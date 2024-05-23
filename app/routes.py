@@ -54,17 +54,19 @@ def create_app():
             {"id": f.follower.id, "name": f.follower.name} for f in user.followers
         ]
         return {
-            "result": "true",
-            "user": {
-                "id": user.id,
-                "name": user.name,
-                "followers": followers,
-                "following": following,
-            },
-        }, 200
+                   "result": "true",
+                   "user": {
+                       "id": user.id,
+                       "name": user.name,
+                       "followers": followers,
+                       "following": following,
+                   },
+               }, 200
 
     class UsersIdApi(Resource):
         # /api/users/id
+
+        @swag_from(get_users_id_spec)
         def get(self, id: int):
             user = db.session.get(User, id)
             if not user:
@@ -80,18 +82,19 @@ def create_app():
             ]
 
             return {
-                "result": "true",
-                "user": {
-                    "id": user.id,
-                    "name": user.name,
-                    "followers": followers,
-                    "following": following,
-                },
-            }, 200
+                       "result": "true",
+                       "user": {
+                           "id": user.id,
+                           "name": user.name,
+                           "followers": followers,
+                           "following": following,
+                       },
+                   }, 200
 
     class TweetsApi(Resource):
         method_decorators = [require_api_key]
 
+        @swag_from(get_tweet_spec)
         def get(self, user: User):
             followings = db.session.query(Follow).filter_by(follower_id=user.id).all()
             if not followings:
@@ -126,6 +129,7 @@ def create_app():
                     )
             return {"result": True, "tweets": result}, 200
 
+        @swag_from(post_tweet)
         def post(self, user: User):
             content = request.json.get("tweet_data")
             if not content:
@@ -145,6 +149,7 @@ def create_app():
     class TweetsIdApi(Resource):
         method_decorators = [require_api_key]
 
+        @swag_from()
         def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -156,6 +161,7 @@ def create_app():
             return {"result": True}, 200
 
     class MediasApi(Resource):
+        @swag_from()
         def post(self):
             file = request.files["file"]
             if not file:
@@ -176,6 +182,7 @@ def create_app():
     class TweetsIdLikes(Resource):
         method_decorators = [require_api_key]
 
+        @swag_from()
         def post(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -185,6 +192,7 @@ def create_app():
             db.session.commit()
             return {"result": True}, 201
 
+        @swag_from()
         def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -203,6 +211,7 @@ def create_app():
     class UsersIdFollow(Resource):
         method_decorators = [require_api_key]
 
+        @swag_from()
         def post(self, user: User, id: int):
             user_to_follow = db.session.query(User).get(id)
             if user.id == id:
@@ -225,6 +234,7 @@ def create_app():
             db.session.commit()
             return {"result": "true"}, 201
 
+        @swag_from()
         def delete(self, user: User, id: int):
             user_to_unfollow = db.session.query(User).get(id)
             if user.id == id:
