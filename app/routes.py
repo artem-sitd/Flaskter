@@ -5,7 +5,8 @@ from flask_restful import Api, Resource
 from .config import Config
 from .models import db, User, Follow, Image, Tweet, Like
 from werkzeug.utils import secure_filename
-from flasgger import Swagger, APISpec
+from flasgger import Swagger, APISpec, swag_from
+from .spec import *
 
 
 def create_app():
@@ -36,10 +37,12 @@ def create_app():
 
         return decorated_function
 
+    @swag_from(index_spec)
     @app.route("/", methods=["GET"])
     def get_index():
         return render_template("index.html"), 200
 
+    @swag_from(get_users_me_spec)
     @app.route("/api/users/me", methods=["GET"])
     @require_api_key
     def get_users_me(user: User):
