@@ -5,7 +5,7 @@ from flask_restful import Api, Resource
 from .config import Config
 from .models import db, User, Follow, Image, Tweet, Like
 from werkzeug.utils import secure_filename
-from flasgger import Swagger
+from flasgger import Swagger, APISpec
 
 
 def create_app():
@@ -36,17 +36,13 @@ def create_app():
 
         return decorated_function
 
-    """ну это стартовая страница"""
-
     @app.route("/", methods=["GET"])
     def get_index():
         return render_template("index.html"), 200
 
-    """через обычный роут сделал, т.к. не хотел еще один класс создавать для апи"""
-
     @app.route("/api/users/me", methods=["GET"])
     @require_api_key
-    def get_users_me(user):
+    def get_users_me(user: User):
         following = [
             {"id": f.following.id, "name": f.following.name} for f in user.following
         ]
@@ -66,7 +62,7 @@ def create_app():
 
     class UsersIdApi(Resource):
         # /api/users/id
-        def get(self, id):
+        def get(self, id: int):
             user = db.session.get(User, id)
             if not user:
                 return err("не верный юзер", None)
@@ -93,7 +89,7 @@ def create_app():
     class TweetsApi(Resource):
         method_decorators = [require_api_key]
 
-        def get(self, user):
+        def get(self, user: User):
             followings = db.session.query(Follow).filter_by(follower_id=user.id).all()
             if not followings:
                 return {"result": True}, 200
@@ -127,7 +123,7 @@ def create_app():
                     )
             return {"result": True, "tweets": result}, 200
 
-        def post(self, user):
+        def post(self, user: User):
             content = request.json.get("tweet_data")
             if not content:
                 return err("no content in tweet", None), 400
@@ -146,7 +142,7 @@ def create_app():
     class TweetsIdApi(Resource):
         method_decorators = [require_api_key]
 
-        def delete(self, user, id):
+        def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
                 return err("does not exists tweet by id", None), 400
@@ -177,7 +173,7 @@ def create_app():
     class TweetsIdLikes(Resource):
         method_decorators = [require_api_key]
 
-        def post(self, user, id):
+        def post(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
                 return err("does not exists tweet by id", None), 400
@@ -186,7 +182,7 @@ def create_app():
             db.session.commit()
             return {"result": True}, 201
 
-        def delete(self, user, id):
+        def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
                 return err("does not exists tweet by id", None), 400
@@ -204,7 +200,7 @@ def create_app():
     class UsersIdFollow(Resource):
         method_decorators = [require_api_key]
 
-        def post(self, user, id):
+        def post(self, user: User, id: int):
             user_to_follow = db.session.query(User).get(id)
             if user.id == id:
                 return err("You cannot follow yourself", None), 400
@@ -226,7 +222,7 @@ def create_app():
             db.session.commit()
             return {"result": "true"}, 201
 
-        def delete(self, user, id):
+        def delete(self, user: User, id: int):
             user_to_unfollow = db.session.query(User).get(id)
             if user.id == id:
                 return err("You cannot unfollow yourself", None), 400

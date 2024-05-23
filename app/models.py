@@ -54,9 +54,8 @@ class Follow(db.Model):
         "User", foreign_keys="Follow.following_id", back_populates="followers"
     )
 
-
-def __repr__(self):
-    return f"<Follow follower_id={self.follower_id} followed_id={self.followed_id}>"
+    def __repr__(self):
+        return f"<Follow follower_id={self.follower_id} followed_id={self.followed_id}>"
 
 
 class Tweet(db.Model):
@@ -69,9 +68,7 @@ class Tweet(db.Model):
 
     author = relationship("User", back_populates="tweets")
     likes = relationship("Like", back_populates="tweet", cascade="all, delete-orphan")
-    image = relationship(
-        "Image", back_populates="tweet", cascade="all, delete-orphan"
-    )
+    image = relationship("Image", back_populates="tweet", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Tweet {self.content[:20]}>"
