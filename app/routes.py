@@ -5,6 +5,7 @@ from flask_restful import Api, Resource
 from .config import Config
 from .models import db, User, Follow, Image, Tweet, Like
 from werkzeug.utils import secure_filename
+from flasgger import Swagger
 
 
 def create_app():
@@ -12,6 +13,7 @@ def create_app():
     app.config.from_object(Config)
 
     api = Api(app)
+    swagger = Swagger(app)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
@@ -35,11 +37,13 @@ def create_app():
         return decorated_function
 
     """ну это стартовая страница"""
+
     @app.route("/", methods=["GET"])
     def get_index():
         return render_template("index.html"), 200
 
     """через обычный роут сделал, т.к. не хотел еще один класс создавать для апи"""
+
     @app.route("/api/users/me", methods=["GET"])
     @require_api_key
     def get_users_me(user):
@@ -140,10 +144,14 @@ def create_app():
             return {"result": True, "tweet_id": new_tweet.id}, 201
 
     class TweetsIdApi(Resource):
-        def delete(self, id):
+        method_decorators = [require_api_key]
+
+        def delete(self, user, id):
             tweet = db.session.get(Tweet, id)
             if not tweet:
                 return err("does not exists tweet by id", None), 400
+            if user.id != tweet.user_id:
+                return err("you cannot delete other people's posts", None), 400
             db.session.delete(tweet)
             db.session.commit()
             return {"result": True}, 200
