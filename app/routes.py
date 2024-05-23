@@ -129,7 +129,7 @@ def create_app():
                     )
             return {"result": True, "tweets": result}, 200
 
-        @swag_from(post_tweet)
+        @swag_from(post_tweet_spec)
         def post(self, user: User):
             content = request.json.get("tweet_data")
             if not content:
@@ -149,7 +149,7 @@ def create_app():
     class TweetsIdApi(Resource):
         method_decorators = [require_api_key]
 
-        @swag_from()
+        @swag_from(delete_tweet_id_spec)
         def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -161,7 +161,7 @@ def create_app():
             return {"result": True}, 200
 
     class MediasApi(Resource):
-        @swag_from()
+        @swag_from(post_medias_spec)
         def post(self):
             file = request.files["file"]
             if not file:
@@ -177,12 +177,12 @@ def create_app():
             media = Image(url=filepath, tweet_id=None)
             db.session.add(media)
             db.session.commit()
-            return {"result": True, "media_id": media.id}
+            return {"result": True, "media_id": media.id}, 200
 
     class TweetsIdLikes(Resource):
         method_decorators = [require_api_key]
 
-        @swag_from()
+        @swag_from(post_like_spec)
         def post(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -192,7 +192,7 @@ def create_app():
             db.session.commit()
             return {"result": True}, 201
 
-        @swag_from()
+        @swag_from(delete_like_spec)
         def delete(self, user: User, id: int):
             tweet = db.session.get(Tweet, id)
             if not tweet:
@@ -211,7 +211,7 @@ def create_app():
     class UsersIdFollow(Resource):
         method_decorators = [require_api_key]
 
-        @swag_from()
+        @swag_from(post_follow_spec)
         def post(self, user: User, id: int):
             user_to_follow = db.session.query(User).get(id)
             if user.id == id:
@@ -234,7 +234,7 @@ def create_app():
             db.session.commit()
             return {"result": "true"}, 201
 
-        @swag_from()
+        @swag_from(delete_follow_spec)
         def delete(self, user: User, id: int):
             user_to_unfollow = db.session.query(User).get(id)
             if user.id == id:

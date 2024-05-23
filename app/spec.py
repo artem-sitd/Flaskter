@@ -55,14 +55,7 @@ get_users_me_spec = {
                             ],
                             "following": [
                                 {"id": 3, "name": "Following Name"}
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+                            ]}}}}}}}
 
 get_users_id_spec = {
     "description": "Страница с подписчиками и на кого подписан",
@@ -91,18 +84,12 @@ get_users_id_spec = {
                             ],
                             "following": [
                                 {"id": 3, "name": "Following Name"}
-                            ]
-                        }
-                    }
-                }
-            }
-        }
-    }
+                            ]}}}}}}
 }
 
 get_tweet_spec = {
     "description": "Твиты на кого подписан",
-    "tags": ["get_user_id"],
+    "tags": ["get_tweets"],
     "parameters": [
         {
             "in": "header",
@@ -130,12 +117,187 @@ get_tweet_spec = {
                             "likes": [
                                 {"user_id": "int", "name": "string"}
                             ],
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+                        }}}}}}}
 
-post_tweet = {}
+post_tweet_spec = {
+    "description": "Создает твит",
+    "tags": ["post_tweet"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        }
+    ],
+    "responses": {
+        201: {
+            "description": "Создание твита",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true",
+                        "tweet_id": "int"
+                    }}}}}}
+delete_tweet_id_spec = {
+    "description": "Удаляет твит",
+    "tags": ["delete_tweet"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        },
+        {
+            "in": "path",
+            "name": "id",
+            "type": "int",
+            "required": True,
+            "description": "target id tweet",
+        }
+    ],
+    "responses": {
+        200: {
+            "description": "Удаление твита",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true"
+                    }}}}}}
+
+post_medias_spec = {
+    "description": "Принимает картинку к твиту",
+    "tags": ["post_medias"],
+    "parameters": [
+        {
+            "in": "formData",
+            "name": "file",
+            "type": "file",
+            "required": True,
+            "description": "Передаваемая картинка",
+        }
+    ],
+    "responses": {
+        200: {
+            "description": "Принимает картинку к твиту",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true",
+                        "media_id": "int"
+                    }}}}}}
+
+post_like_spec = {
+    "description": "Ставит лайк твиту",
+    "tags": ["post_like"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        },
+        {
+            "in": "path",
+            "name": "id",
+            "type": "int",
+            "required": True,
+            "description": "target id tweet",
+        }
+    ],
+    "responses": {
+        201: {
+            "description": "Ставит лайк твиту",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true"
+                    }}}}}}
+
+delete_like_spec = {
+    "description": "Убирает лайк твиту",
+    "tags": ["delete_like"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        },
+        {
+            "in": "path",
+            "name": "id",
+            "type": "int",
+            "required": True,
+            "description": "target id tweet",
+        }
+    ],
+    "responses": {
+        200: {
+            "description": "Убирает лайк твиту",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true"
+                    }}}}}}
+
+post_follow_spec = {
+    "description": "Подписывается на пользователя",
+    "tags": ["post_follow"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        },
+        {
+            "in": "path",
+            "name": "id",
+            "type": "int",
+            "required": True,
+            "description": "target id tweet",
+        }
+    ],
+    "responses": {
+        201: {
+            "description": "Подписывается на пользователя",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true"
+                    }}}}}}
+
+delete_follow_spec = {
+    "description": "Убирает подписку на пользователя",
+    "tags": ["delete_follow"],
+    "parameters": [
+        {
+            "in": "header",
+            "name": "Api-key",
+            "type": "int",
+            "required": True,
+            "description": "Api-key of the user",
+        },
+        {
+            "in": "path",
+            "name": "id",
+            "type": "int",
+            "required": True,
+            "description": "target id tweet",
+        }
+    ],
+    "responses": {
+        200: {
+            "description": "Убирает подписку на пользователя",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "result": "true"
+                    }}}}}}
