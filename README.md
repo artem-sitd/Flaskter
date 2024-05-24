@@ -1,11 +1,17 @@
-<div style="text-align: center;">
-  <h1>Flaskter</h1>  
-<h2>Сервис микроблогов. </h2>
-</div>
+<h2 style="text-align: center;"> Flaskter </h2>
+<h3 style="text-align: center;"> Сервис микроблогов. </h3>
 
-| ORM        | База данных | Фреймворк | API           | Документация | Контейнер      | Тесты                      | Линтеры                    | Веб   | WSGI     | Python | Миграции |
-|------------|-------------|-----------|---------------|--------------|----------------|----------------------------|----------------------------|-------|----------|--------|----------|
-| SQLAlchemy | Postgresql  | Flask     | Flask Restful | Flasgger     | Docker-compose | pytest,  | black, isort, mypy, flake8 | nginx | gunicorn | 3.12   | alembic  |
+![index](https://github.com/artem-sitd/Flaskter/assets/22573129/a86ba5d9-3a60-493b-a41a-96c61b0cacbd)
+
+
+| ORM        | База данных | Фреймворк | API           | Документация | Контейнер      |
+|------------|-------------|-----------|---------------|--------------|----------------|
+| <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/68d3b55f-7782-4249-a3c7-7d8a9c33fdb5"> | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/8bb46da6-97d5-443a-b1ea-f7ae7ada3db3">  | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/aabcd7bb-149a-4151-9857-a17c182e09b9"> | Flask Restful | Flasgger     | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/ee4146dc-825b-4b5a-a745-197afade2c9c"> | 
+
+|Миграции| Python |WSGI |Веб|Линтеры|Тесты |
+|--------|-----|-------|--------|--|--|
+|alembic| 3.12 | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/0a90a388-15ea-4be9-8709-b6ab230780e4">| <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/533c1e7a-bd1f-41cb-b178-ee719a68ca92">|black, isort, mypy, flake8 |<img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/6ec89aba-e31e-4d6c-856b-1ea571a1ee74">|
+
 
 <div style="text-align: center;">
 <h3>Запуск</h3>
@@ -62,8 +68,9 @@
 | 2  | post      | /api/medias            | Endpoint для загрузки файлов из твита. Загрузка происходит через<br>отправку формы. В ответ должен вернуться id загруженного файла.                                     |
 | 10 | get       | /api/users/<id>        | Пользователь может получить информацию о произвольном профиле по его<br>Id:                                                                                             |
 
-8. Скриншоты
 
 <div style="text-align: center;">
 <h3>Покрытие тестами</h3>
 </div>
+<img height="200" src="https://github.com/artem-sitd/Flaskter/assets/22573129/ce9ce230-5682-4f62-8442-196fb3ed57c3">
+
