@@ -1,11 +1,14 @@
-from random import random
-import sys
-import pytest
-from copy import deepcopy
 import io
 import json
+import sys
+from copy import deepcopy
+from random import random
+
+import pytest
+
+from app.models import Follow, Like, Tweet, User
+
 from .conftest import names
-from app.models import User, Tweet, Like, Follow
 
 
 def get_head(api_key, content_type=None):

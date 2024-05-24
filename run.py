@@ -8,8 +8,8 @@
 #         db.create_all()
 #         app.run()
 
-from app.routes import create_app
 from app.models import db
+from app.routes import create_app
 
 app = create_app()
 

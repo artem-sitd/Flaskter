@@ -1,14 +1,15 @@
 import pytest
 from dotenv import load_dotenv
-from app.routes import create_app
-from app.config import ConfigTest
-from app.models import User, db as _db
 
+from app.config import ConfigTest
+from app.models import User
+from app.models import db as _db
+from app.routes import create_app
 
 names = {"vasya12", "petya32", "15gevorg", "tor", "odin"}
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def app():
     load_dotenv()
     _app = create_app()
@@ -32,13 +33,13 @@ def app():
         _db.drop_all()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def client(app):
     client = app.test_client()
     yield client
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def db(app):
     with app.app_context():
         yield _db

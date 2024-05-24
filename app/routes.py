@@ -1,11 +1,13 @@
-from functools import wraps
 import os
-from flask import Flask, render_template, request, jsonify
+from functools import wraps
+
+from flasgger import Swagger, swag_from
+from flask import Flask, render_template, request
 from flask_restful import Api, Resource
-from .config import Config
-from .models import db, User, Follow, Image, Tweet, Like
 from werkzeug.utils import secure_filename
-from flasgger import Swagger, APISpec, swag_from
+
+from .config import Config
+from .models import Follow, Image, Like, Tweet, User, db
 from .spec import *
 
 
@@ -54,14 +56,14 @@ def create_app():
             {"id": f.follower.id, "name": f.follower.name} for f in user.followers
         ]
         return {
-                   "result": "true",
-                   "user": {
-                       "id": user.id,
-                       "name": user.name,
-                       "followers": followers,
-                       "following": following,
-                   },
-               }, 200
+            "result": "true",
+            "user": {
+                "id": user.id,
+                "name": user.name,
+                "followers": followers,
+                "following": following,
+            },
+        }, 200
 
     class UsersIdApi(Resource):
         # /api/users/id
@@ -82,14 +84,14 @@ def create_app():
             ]
 
             return {
-                       "result": "true",
-                       "user": {
-                           "id": user.id,
-                           "name": user.name,
-                           "followers": followers,
-                           "following": following,
-                       },
-                   }, 200
+                "result": "true",
+                "user": {
+                    "id": user.id,
+                    "name": user.name,
+                    "followers": followers,
+                    "following": following,
+                },
+            }, 200
 
     class TweetsApi(Resource):
         method_decorators = [require_api_key]

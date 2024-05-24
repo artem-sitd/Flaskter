@@ -50,12 +50,15 @@ get_users_me_spec = {
                         "user": {
                             "id": 1,
                             "name": "John Doe",
-                            "followers": [
-                                {"id": 2, "name": "Follower Name"}
-                            ],
-                            "following": [
-                                {"id": 3, "name": "Following Name"}
-                            ]}}}}}}}
+                            "followers": [{"id": 2, "name": "Follower Name"}],
+                            "following": [{"id": 3, "name": "Following Name"}],
+                        },
+                    }
+                }
+            },
+        }
+    },
+}
 
 get_users_id_spec = {
     "description": "Страница с подписчиками и на кого подписан",
@@ -79,12 +82,14 @@ get_users_id_spec = {
                         "user": {
                             "id": 1,
                             "name": "John Doe",
-                            "followers": [
-                                {"id": 2, "name": "Follower Name"}
-                            ],
-                            "following": [
-                                {"id": 3, "name": "Following Name"}
-                            ]}}}}}}
+                            "followers": [{"id": 2, "name": "Follower Name"}],
+                            "following": [{"id": 3, "name": "Following Name"}],
+                        },
+                    }
+                }
+            },
+        }
+    },
 }
 
 get_tweet_spec = {
@@ -114,10 +119,14 @@ get_tweet_spec = {
                                 "id": "int",
                                 "name": "string",
                             },
-                            "likes": [
-                                {"user_id": "int", "name": "string"}
-                            ],
-                        }}}}}}}
+                            "likes": [{"user_id": "int", "name": "string"}],
+                        },
+                    }
+                }
+            },
+        }
+    },
+}
 
 post_tweet_spec = {
     "description": "Создает твит",
@@ -135,11 +144,11 @@ post_tweet_spec = {
         201: {
             "description": "Создание твита",
             "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true",
-                        "tweet_id": "int"
-                    }}}}}}
+                "application/json": {"example": {"result": "true", "tweet_id": "int"}}
+            },
+        }
+    },
+}
 delete_tweet_id_spec = {
     "description": "Удаляет твит",
     "tags": ["delete_tweet"],
@@ -157,16 +166,15 @@ delete_tweet_id_spec = {
             "type": "int",
             "required": True,
             "description": "target id tweet",
-        }
+        },
     ],
     "responses": {
         200: {
             "description": "Удаление твита",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true"
-                    }}}}}}
+            "content": {"application/json": {"example": {"result": "true"}}},
+        }
+    },
+}
 
 post_medias_spec = {
     "description": "Принимает картинку к твиту",
@@ -184,11 +192,11 @@ post_medias_spec = {
         200: {
             "description": "Принимает картинку к твиту",
             "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true",
-                        "media_id": "int"
-                    }}}}}}
+                "application/json": {"example": {"result": "true", "media_id": "int"}}
+            },
+        }
+    },
+}
 
 post_like_spec = {
     "description": "Ставит лайк твиту",
@@ -207,16 +215,15 @@ post_like_spec = {
             "type": "int",
             "required": True,
             "description": "target id tweet",
-        }
+        },
     ],
     "responses": {
         201: {
             "description": "Ставит лайк твиту",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true"
-                    }}}}}}
+            "content": {"application/json": {"example": {"result": "true"}}},
+        }
+    },
+}
 
 delete_like_spec = {
     "description": "Убирает лайк твиту",
@@ -235,16 +242,15 @@ delete_like_spec = {
             "type": "int",
             "required": True,
             "description": "target id tweet",
-        }
+        },
     ],
     "responses": {
         200: {
             "description": "Убирает лайк твиту",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true"
-                    }}}}}}
+            "content": {"application/json": {"example": {"result": "true"}}},
+        }
+    },
+}
 
 post_follow_spec = {
     "description": "Подписывается на пользователя",
@@ -263,16 +269,15 @@ post_follow_spec = {
             "type": "int",
             "required": True,
             "description": "target id tweet",
-        }
+        },
     ],
     "responses": {
         201: {
             "description": "Подписывается на пользователя",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true"
-                    }}}}}}
+            "content": {"application/json": {"example": {"result": "true"}}},
+        }
+    },
+}
 
 delete_follow_spec = {
     "description": "Убирает подписку на пользователя",
@@ -291,13 +296,12 @@ delete_follow_spec = {
             "type": "int",
             "required": True,
             "description": "target id tweet",
-        }
+        },
     ],
     "responses": {
         200: {
             "description": "Убирает подписку на пользователя",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "result": "true"
-                    }}}}}}
+            "content": {"application/json": {"example": {"result": "true"}}},
+        }
+    },
+}
