@@ -1,10 +1,6 @@
 import io
 import json
-import sys
 from copy import deepcopy
-from random import random
-
-import pytest
 
 from app.models import Follow, Like, Tweet, User
 

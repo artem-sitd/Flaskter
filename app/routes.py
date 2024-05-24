@@ -8,7 +8,10 @@ from werkzeug.utils import secure_filename
 
 from .config import Config
 from .models import Follow, Image, Like, Tweet, User, db
-from .spec import *
+from .spec import (delete_follow_spec, delete_like_spec, delete_tweet_id_spec,
+                   get_tweet_spec, get_users_id_spec, get_users_me_spec,
+                   index_spec, post_follow_spec, post_like_spec,
+                   post_medias_spec, post_tweet_spec)
 
 
 def create_app():
@@ -22,9 +25,11 @@ def create_app():
     def shutdown_session(exception=None):
         db.session.remove()
 
-    # проверка апи ключа, но этот способ дурной какой-то. Каждую функцию будет спамить в бд на проверку
+    # проверка апи ключа, но этот способ дурной какой-то. Каждую функцию
+    # будет спамить в бд на проверку
     # почему стандартную нельзя логин и сессии ??
-    # админ создал учетку, отправил логин пароль, пользователь сменил пароль на свой, браузер сохранил сессию
+    # админ создал учетку, отправил логин пароль, пользователь сменил пароль н
+    # а свой, браузер сохранил сессию
     def require_api_key(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):

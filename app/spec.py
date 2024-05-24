@@ -36,7 +36,7 @@ get_users_me_spec = {
                         "name": "John Doe",
                         "followers": [{"id": 2, "name": "Follower Name"}],
                         "following": [{"id": 3, "name": "Following Name"}],
-                    }
+                    },
                 }
             },
         }
@@ -57,7 +57,8 @@ get_users_id_spec = {
     ],
     "responses": {
         200: {
-            "description": "id, имя указанного юзера + id, имя его подписчиков и на кого подписан целевой юзер",
+            "description": "id, имя указанного юзера + id, имя его "
+            "подписчиков и на кого подписан целевой юзер",
             "examples": {
                 "application/json": {
                     "result": "true",
@@ -66,7 +67,7 @@ get_users_id_spec = {
                         "name": "John Doe",
                         "followers": [{"id": 2, "name": "Follower Name"}],
                         "following": [{"id": 3, "name": "Following Name"}],
-                    }
+                    },
                 }
             },
         }
@@ -100,7 +101,7 @@ get_tweet_spec = {
                             "name": "string",
                         },
                         "likes": [{"user_id": "int", "name": "string"}],
-                    }
+                    },
                 }
             },
         }
@@ -122,8 +123,7 @@ post_tweet_spec = {
     "responses": {
         201: {
             "description": "Возвращает id созданного твита",
-            "examples": {
-                "application/json": {"result": "true", "tweet_id": "int"}}
+            "examples": {"application/json": {"result": "true", "tweet_id": "int"}},
         }
     },
 }
@@ -150,7 +150,8 @@ delete_tweet_id_spec = {
     "responses": {
         200: {
             "description": "Удаление твита",
-            "examples": {"application/json": {"result": "true"}}},
+            "examples": {"application/json": {"result": "true"}},
+        },
     },
 }
 
@@ -169,8 +170,7 @@ post_medias_spec = {
     "responses": {
         200: {
             "description": "Возвращает id картинки",
-            "examples": {
-                "application/json": {"result": "true", "media_id": "int"}}
+            "examples": {"application/json": {"result": "true", "media_id": "int"}},
         }
     },
 }
@@ -197,7 +197,8 @@ post_like_spec = {
     "responses": {
         201: {
             "description": "Ставит лайк твиту",
-            "examples": {"application/json": {"result": "true"}}},
+            "examples": {"application/json": {"result": "true"}},
+        },
     },
 }
 
@@ -223,7 +224,8 @@ delete_like_spec = {
     "responses": {
         200: {
             "description": "Убирает лайк твиту",
-            "examples": {"application/json": {"result": "true"}}},
+            "examples": {"application/json": {"result": "true"}},
+        },
     },
 }
 
@@ -249,7 +251,8 @@ post_follow_spec = {
     "responses": {
         201: {
             "description": "Подписывается на пользователя",
-            "examples": {"application/json": {"result": "true"}}},
+            "examples": {"application/json": {"result": "true"}},
+        },
     },
 }
 
@@ -275,6 +278,7 @@ delete_follow_spec = {
     "responses": {
         200: {
             "description": "Убирает подписку на пользователя",
-            "examples": {"application/json": {"result": "true"}}},
+            "examples": {"application/json": {"result": "true"}},
+        },
     },
 }
