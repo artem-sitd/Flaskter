@@ -10,7 +10,9 @@
 
 |Миграции| Python |WSGI |Веб|Линтеры|Тесты | Менеджер зависимостей|
 |--------|-----|-------|--------|--|--|--|
-|alembic| 3.12 | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/0a90a388-15ea-4be9-8709-b6ab230780e4">| <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/533c1e7a-bd1f-41cb-b178-ee719a68ca92">|black, isort, mypy, flake8 |<img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/6ec89aba-e31e-4d6c-856b-1ea571a1ee74">|poetry|
+|alembic| 3.12 | <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/0a90a388-15ea-4be9-8709-b6ab230780e4">| <img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/533c1e7a-bd1f-41cb-b178-ee719a68ca92">|black, isort, mypy, flake8 |<img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/6ec89aba-e31e-4d6c-856b-1ea571a1ee74">|<img height="50" src="https://github.com/artem-sitd/Flaskter/assets/22573129/cd672692-41ad-4f5e-86d6-f1a45d9f5cf3">|
+
+
 
 
 <div style="text-align: center;">
