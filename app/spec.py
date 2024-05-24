@@ -1,18 +1,3 @@
-authors_api_spec_delete = {
-    "description": "Delete the author and all their books",
-    "tags": ["authors"],
-    "parameters": [
-        {
-            "in": "path",
-            "name": "id",
-            "type": "integer",
-            "required": True,
-            "description": "ID of the author",
-        }
-    ],
-    "responses": {200: {"description": "Author and all their books deleted"}},
-}
-
 index_spec = {
     "description": "Стартовая страница единственного шаблона index.html",
     "tags": ["index"],
@@ -42,17 +27,15 @@ get_users_me_spec = {
     ],
     "responses": {
         200: {
-            "description": "Информация о юзере",
-            "content": {
+            "description": "id, имя юзера,а также id, имя его подписчиков + на кого подписан",
+            "examples": {
                 "application/json": {
-                    "example": {
-                        "result": "true",
-                        "user": {
-                            "id": 1,
-                            "name": "John Doe",
-                            "followers": [{"id": 2, "name": "Follower Name"}],
-                            "following": [{"id": 3, "name": "Following Name"}],
-                        },
+                    "result": "true",
+                    "user": {
+                        "id": 1,
+                        "name": "John Doe",
+                        "followers": [{"id": 2, "name": "Follower Name"}],
+                        "following": [{"id": 3, "name": "Following Name"}],
                     }
                 }
             },
@@ -74,17 +57,15 @@ get_users_id_spec = {
     ],
     "responses": {
         200: {
-            "description": "Показывает подписчиков и на кого подписан целевой юзер",
-            "content": {
+            "description": "id, имя указанного юзера + id, имя его подписчиков и на кого подписан целевой юзер",
+            "examples": {
                 "application/json": {
-                    "example": {
-                        "result": "true",
-                        "user": {
-                            "id": 1,
-                            "name": "John Doe",
-                            "followers": [{"id": 2, "name": "Follower Name"}],
-                            "following": [{"id": 3, "name": "Following Name"}],
-                        },
+                    "result": "true",
+                    "user": {
+                        "id": 1,
+                        "name": "John Doe",
+                        "followers": [{"id": 2, "name": "Follower Name"}],
+                        "following": [{"id": 3, "name": "Following Name"}],
                     }
                 }
             },
@@ -106,21 +87,19 @@ get_tweet_spec = {
     ],
     "responses": {
         200: {
-            "description": "Показывает твиты на кого подписан подписан целевой юзер",
-            "content": {
+            "description": "id, контент, вложения, автор, лайки указанного твита",
+            "examples": {
                 "application/json": {
-                    "example": {
-                        "result": "true",
-                        "tweets": {
-                            "id": 1,
-                            "content": "string",
-                            "attachments": "url to static images",
-                            "author": {
-                                "id": "int",
-                                "name": "string",
-                            },
-                            "likes": [{"user_id": "int", "name": "string"}],
+                    "result": "true",
+                    "tweets": {
+                        "id": 1,
+                        "content": "string",
+                        "attachments": "url to static images",
+                        "author": {
+                            "id": "int",
+                            "name": "string",
                         },
+                        "likes": [{"user_id": "int", "name": "string"}],
                     }
                 }
             },
@@ -142,13 +121,13 @@ post_tweet_spec = {
     ],
     "responses": {
         201: {
-            "description": "Создание твита",
-            "content": {
-                "application/json": {"example": {"result": "true", "tweet_id": "int"}}
-            },
+            "description": "Возвращает id созданного твита",
+            "examples": {
+                "application/json": {"result": "true", "tweet_id": "int"}}
         }
     },
 }
+
 delete_tweet_id_spec = {
     "description": "Удаляет твит",
     "tags": ["delete_tweet"],
@@ -171,8 +150,7 @@ delete_tweet_id_spec = {
     "responses": {
         200: {
             "description": "Удаление твита",
-            "content": {"application/json": {"example": {"result": "true"}}},
-        }
+            "examples": {"application/json": {"result": "true"}}},
     },
 }
 
@@ -190,10 +168,9 @@ post_medias_spec = {
     ],
     "responses": {
         200: {
-            "description": "Принимает картинку к твиту",
-            "content": {
-                "application/json": {"example": {"result": "true", "media_id": "int"}}
-            },
+            "description": "Возвращает id картинки",
+            "examples": {
+                "application/json": {"result": "true", "media_id": "int"}}
         }
     },
 }
@@ -220,8 +197,7 @@ post_like_spec = {
     "responses": {
         201: {
             "description": "Ставит лайк твиту",
-            "content": {"application/json": {"example": {"result": "true"}}},
-        }
+            "examples": {"application/json": {"result": "true"}}},
     },
 }
 
@@ -247,8 +223,7 @@ delete_like_spec = {
     "responses": {
         200: {
             "description": "Убирает лайк твиту",
-            "content": {"application/json": {"example": {"result": "true"}}},
-        }
+            "examples": {"application/json": {"result": "true"}}},
     },
 }
 
@@ -274,8 +249,7 @@ post_follow_spec = {
     "responses": {
         201: {
             "description": "Подписывается на пользователя",
-            "content": {"application/json": {"example": {"result": "true"}}},
-        }
+            "examples": {"application/json": {"result": "true"}}},
     },
 }
 
@@ -301,7 +275,6 @@ delete_follow_spec = {
     "responses": {
         200: {
             "description": "Убирает подписку на пользователя",
-            "content": {"application/json": {"example": {"result": "true"}}},
-        }
+            "examples": {"application/json": {"result": "true"}}},
     },
 }
